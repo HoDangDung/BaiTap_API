@@ -2,12 +2,28 @@
 function validateAcc() {
     let acc = dom("#TaiKhoan").value,
         spanEL = dom("#spanAcc");
-    if (!acc) {
-        spanEL.innerHTML = "Tài khoản không được để trống";
-        return false;
-    }
-    spanEL.innerHTML = ""
-    return true;
+
+    apiGetUsers(acc)
+        .then((response) => {
+            response.data.map((user) => {
+                // Kiểm tra trùng Account
+                if (user.account === acc) {
+                    spanEL.innerHTML = "Tài khoản đã tồn tại"
+                    return false;
+                };
+                // Kiểm tra rỗng
+                if (!acc) {
+                    spanEL.innerHTML = "Tài khoản không được để trống";
+                    return false;
+                }
+                spanEL.innerHTML = "";
+                return true;
+            })
+            console.log(acc);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
 }
 
 // Hàm kiểm tra input Name
@@ -122,9 +138,20 @@ function validateScribe() {
     return true;
 }
 
+// Hàm kiểm tra thêm mới User
 function validateForm() {
     let isValid = true;
     isValid = validateAcc() & validateName() & validatePass() & validateEmail() & validateTypeUser() & validateTypeLangue() & validateScribe();
+    if (!isValid) {
+        return false;
+    }
+    return true;
+}
+
+// Hàm kiểm tra cập nhật User
+function validateFormUpdate() {
+    let isValid = true;
+    isValid = validateName() & validatePass() & validateEmail() & validateTypeUser() & validateTypeLangue() & validateScribe();
     if (!isValid) {
         return false;
     }

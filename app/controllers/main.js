@@ -25,7 +25,6 @@ function getUsers(searchTerm) {
         .catch((error) => {
             console.log(error);
         });
-
 }
 
 // function addUser request API để thêm sản phẩm
@@ -134,15 +133,17 @@ dom(".modal-footer").addEventListener("click", (evt) => {
     // tạo object từ lớp đối tượng
     let user = new Users(null, acc, name, pass, email, image, typeUser, typeLangue, describe);
 
-    let isValid = validateForm(); 
-    if (type === "add") {
-        if (!isValid) {
-            return false;
-        }
+    if (type === "add" && validateForm()) {
         addUsers(user);
+        resetForm();
     }
+
     if (type === "update") {
+        if (!validateFormUpdate()) {
+            return;
+        }
         updateUser(id, user);
+        resetForm();
     }
 });
 
@@ -188,7 +189,7 @@ dom("#search").addEventListener("keydown", (evt) => {
     } else {
         getUsers(evt.target.value);
     }
-    
+
 })
 
 // Search button click
