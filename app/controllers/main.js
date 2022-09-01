@@ -97,8 +97,8 @@ const resetForm = () => {
     dom("#MatKhau").value = null
     dom("#Email").value = null
     dom("#HinhAnh").value = null
-    dom("#loaiNguoiDung").value = null
-    dom("#loaiNgonNgu").value = null
+    dom("#loaiNguoiDung").value = "Chọn loại người dùng"
+    dom("#loaiNgonNgu").value = "Chọn ngôn ngữ"
     dom("#MoTa").value = null
     dom("#TaiKhoan").disabled = false;
 }
@@ -134,7 +134,11 @@ dom(".modal-footer").addEventListener("click", (evt) => {
     // tạo object từ lớp đối tượng
     let user = new Users(null, acc, name, pass, email, image, typeUser, typeLangue, describe);
 
+    let isValid = validateForm(); 
     if (type === "add") {
+        if (!isValid) {
+            return false;
+        }
         addUsers(user);
     }
     if (type === "update") {
