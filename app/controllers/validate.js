@@ -1,29 +1,19 @@
+
 // Hàm kiểm tra input Account
 function validateAcc() {
     let acc = dom("#TaiKhoan").value,
         spanEL = dom("#spanAcc");
 
-    apiGetUsers(acc)
-        .then((response) => {
-            response.data.map((user) => {
-                // Kiểm tra trùng Account
-                if (user.account === acc) {
-                    spanEL.innerHTML = "Tài khoản đã tồn tại"
-                    return false;
-                };
-                // Kiểm tra rỗng
-                if (!acc) {
-                    spanEL.innerHTML = "Tài khoản không được để trống";
-                    return false;
-                }
-                spanEL.innerHTML = "";
-                return true;
-            })
-            console.log(acc);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+    if (!acc) {
+        spanEL.innerHTML = "Tài khoản không được để trống";
+        return false;
+    }
+    // if(params.length > 0){
+    //     spanEL.innerHTML = "Tài khoản trùng";
+    //     return false;
+    // }
+    spanEL.innerHTML = "";
+    return true;
 }
 
 // Hàm kiểm tra input Name
@@ -38,7 +28,7 @@ function validateName() {
     }
 
     // Kiểm tra định dạng
-    let regex = /^[0-9]$/
+    let regex = /^\d+$/
     if (regex.test(name)) {
         spanEL.innerHTML = "Tên không đúng định dạng";
         return false;
