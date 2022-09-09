@@ -1,3 +1,24 @@
+// Hàm kiểm tra trùng
+function validateDuplicate() {
+    let acc = dom("#TaiKhoan").value
+    apiGetUsers()
+        .then((response) => {
+            let taiKhoan = response.data.map((user) => {
+                return user.account === acc;
+            })
+            
+            if (taiKhoan) {
+                alert(taiKhoan)
+                return false;
+            }
+
+            return true;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
 
 // Hàm kiểm tra input Account
 function validateAcc() {
@@ -85,7 +106,7 @@ function validateTypeUser() {
         spanEL = dom("#spanUser");
 
     // Kiểm tra rỗng
-    if (!typeUser || typeUser === "Chọn loại người dùng") {
+    if (typeUser === "Chọn loại người dùng") {
         spanEL.innerHTML = "Phải chọn loại người dùng"
         return false;
     }
@@ -99,7 +120,7 @@ function validateTypeLangue() {
         spanEL = dom("#spanLangue");
 
     // Kiểm tra rỗng
-    if (!typeLangue || typeLangue === "Chọn ngôn ngữ") {
+    if (typeLangue === "Chọn ngôn ngữ") {
         spanEL.innerHTML = "Phải chọn loại ngôn ngữ"
         return false;
     }
@@ -131,7 +152,7 @@ function validateScribe() {
 // Hàm kiểm tra thêm mới User
 function validateForm() {
     let isValid = true;
-    isValid = validateAcc() & validateName() & validatePass() & validateEmail() & validateTypeUser() & validateTypeLangue() & validateScribe();
+    isValid = validateDuplicate() & validateAcc() & validateName() & validatePass() & validateEmail() & validateTypeUser() & validateTypeLangue() & validateScribe();
     if (!isValid) {
         return false;
     }
