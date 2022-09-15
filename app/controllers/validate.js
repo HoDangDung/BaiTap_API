@@ -1,22 +1,24 @@
 // Hàm kiểm tra trùng
 function validateDuplicate() {
-    let acc = dom("#TaiKhoan").value
-    apiGetUsers()
-        .then((response) => {
-            let taiKhoan = response.data.map((user) => {
-                return user.account === acc;
+    let acc = dom("#TaiKhoan").value,
+        spanEL = dom("#spanAcc");
+    return new Promise(function (resolve, reject) {
+        apiGetUsers()
+            .then((response) => {
+                let taiKhoan = response.data.filter((user) => {
+                    return user.account === acc;
+                });
+                if (taiKhoan.length > 0) {
+                    spanEL.innerHTML = "Tài khoản đã tồn tại"
+                    resolve(false);
+                }
+                spanEL.innerHTML = "Tài khoản hợp lệ"
+                resolve(true);
             })
-            
-            if (taiKhoan) {
-                alert(taiKhoan)
-                return false;
-            }
-
-            return true;
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            .catch((error) => {
+                console.log(error);
+            });
+    });
 }
 
 
@@ -29,10 +31,6 @@ function validateAcc() {
         spanEL.innerHTML = "Tài khoản không được để trống";
         return false;
     }
-    // if(params.length > 0){
-    //     spanEL.innerHTML = "Tài khoản trùng";
-    //     return false;
-    // }
     spanEL.innerHTML = "";
     return true;
 }
@@ -150,9 +148,9 @@ function validateScribe() {
 }
 
 // Hàm kiểm tra thêm mới User
-function validateForm() {
+async function validateForm() {
     let isValid = true;
-    isValid = validateDuplicate() & validateAcc() & validateName() & validatePass() & validateEmail() & validateTypeUser() & validateTypeLangue() & validateScribe();
+    isValid = (await validateDuplicate()) & validateAcc() & validateName() & validatePass() & validateEmail() & validateTypeUser() & validateTypeLangue() & validateScribe();
     if (!isValid) {
         return false;
     }

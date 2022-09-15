@@ -33,7 +33,7 @@ function addUsers(user) {
         .then(() => {
             // Dữ liệu thêm mới chỉ mới tồn tại ở phía server
             getUsers();
-
+            console.log();
         })
         .catch((error) => {
             console.log(error);
@@ -82,7 +82,6 @@ function display(users) {
             </tr>
         `
     }, "")
-    console.log(output);
     dom("#tblDanhSachNguoiDung").innerHTML = output;
 }
 
@@ -117,7 +116,7 @@ dom("#btnThemNguoiDung").addEventListener("click", () => {
 })
 
 // Thêm người dùng
-dom(".modal-footer").addEventListener("click", (evt) => {
+dom(".modal-footer").addEventListener("click", async (evt) => {
     let type = evt.target.getAttribute("data-type");
 
     // DOM các inputs để lấy dữ liệu
@@ -133,7 +132,7 @@ dom(".modal-footer").addEventListener("click", (evt) => {
     // tạo object từ lớp đối tượng
     let user = new Users(null, acc, name, pass, email, image, typeUser, typeLangue, describe);
 
-    if (type === "add" && validateForm()) {
+    if (type === "add" && await validateForm()) {
         addUsers(user);
         resetForm();
     }

@@ -130,7 +130,7 @@
             <input hidden id="MaUser">
             <div class="form-group">
               <label>Tài khoản</label>
-              <input id="TaiKhoan" class="form-control" placeholder="Nhập vào tài khoản" oninput="validateAcc()" />
+              <input id="TaiKhoan" class="form-control" placeholder="Nhập vào tài khoản" oninput="validateAcc() & validateDuplicate()" />
               <span id="spanAcc" class="text-danger"></span>
             </div>
             <div class="form-group">
